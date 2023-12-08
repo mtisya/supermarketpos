@@ -401,13 +401,13 @@
                                     <div class="row">
                                         <div class="" style="padding: 0;">
                                             <div class="btn-group-vertical btn-block">
-                                                <button type="button" class="btn btn-warning btn-block" id="payment" style="height:67px;">
+                                                <button type="button" class="btn btn-warning btn-block payment-btn" id="payment" style="height:67px;">
                                                     <i class="fa fa-money" style="margin-right: 5px;"></i><?= lang('cash'); ?>
                                                 </button>
-                                                <button type="button" class="btn btn-success btn-block" id="payment" style="height:67px;">
+                                                <button type="button" class="btn btn-success btn-block payment-btn" id="mpesa_payment" style="height:67px;">
                                                     <i class="fa fa-phone" style="margin-right: 5px;"></i><?= lang('mpesa'); ?>
                                                 </button>
-                                                <button type="button" class="btn btn-primary btn-block" id="payment" style="height:67px;">
+                                                <button type="button" class="btn btn-primary btn-block payment-btn" id="card_payment" style="height:67px;">
                                                     <i class="fa fa-card" style="margin-right: 5px;"></i><?= lang('card'); ?>
                                                 </button>
                                                 <button type="button" class="btn btn-warning btn-block btn-flat" id="suspend" style="height:67px;">
@@ -476,7 +476,7 @@
                                                                     }
                                                                 }
                                                                 ?>
-                                                                <div class="form-group">
+                                                                <!-- <div class="form-group">
                                                                     <div class="row">
                                                                         <div class="col-sm-6">
                                                                             <?= form_textarea('sale_note', '', 'id="sale_note" class="form-control kb-text skip" style="height: 100px;" placeholder="' . lang('sale_note') . '" maxlength="250"'); ?>
@@ -485,7 +485,7 @@
                                                                             <?= form_textarea('staffnote', '', 'id="staffnote" class="form-control kb-text skip" style="height: 100px;" placeholder="' . lang('staff_note') . '" maxlength="250"'); ?>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                                 <div class="clearfir"></div>
                                                                 <div id="payments">
                                                                     <div class="well well-sm well_1">
@@ -669,7 +669,7 @@
                             </div>
                         </div>
                         <div style="clear:both;"></div>
-                    </div> -->
+                    </div>  -->
                         <div style="clear:both;"></div>
                     </div>
                     <div style="clear:both;"></div>
@@ -1468,6 +1468,52 @@
             ?>
 
             $('#payment').click(function() {
+                console.log('clicked===============================================================================')
+                <?php if ($sid) {
+                ?>
+                    suspend = $('<span></span>');
+                    suspend.html('<input type="hidden" name="delete_id" value="<?php echo $sid; ?>" />');
+                    suspend.appendTo("#hidesuspend");
+                <?php
+                }
+                ?>
+                var twt = formatDecimal((total + invoice_tax) - order_discount + shipping);
+                if (count == 1) {
+                    bootbox.alert('<?= lang('x_total'); ?>');
+                    return false;
+                }
+                gtotal = formatDecimal(twt);
+                var cart = {
+                    grand_total: gtotal
+                };
+                document.dispatchEvent(
+                    new CustomEvent('rfd.pole.display', {
+                        detail: {
+                            cart
+                        },
+                    })
+                );
+                <?php if ($pos_settings->rounding) {
+                ?>
+                    round_total = roundNumber(gtotal, <?= $pos_settings->rounding ?>);
+                    var rounding = formatDecimal(0 - (gtotal - round_total));
+                    $('#twt').text(formatMoney(round_total) + ' (' + formatMoney(rounding) + ')');
+                    $('#quick-payable').text(round_total);
+                <?php
+                } else {
+                ?>
+                    $('#twt').text(formatMoney(gtotal));
+                    $('#quick-payable').text(gtotal);
+                <?php
+                }
+                ?>
+                $('#item_count').text(count - 1);
+                $('#paymentModal').appendTo("body").modal('show');
+                $('#amount_1').focus();
+            });
+
+            $('#mpesa_payment').click(function() {
+                console.log('clicked buanaaaaaa==============================================================================')
                 <?php if ($sid) {
                 ?>
                     suspend = $('<span></span>');
@@ -1518,105 +1564,157 @@
                 $('#amount_1').focus().val(0);
                 $('#quick-payable').click();
             });
-            // $('.pmpesa .mpesabtn').click(function () {
-            //     console.log("started");
-            //     $mpesaBtn = $(this);
-            //     $(this).text('Loading');
-            //     $id = $(this).attr('id');
-            //     $mNumber= $(this).parent();
 
-            //     let $amountid = "#amount_"+$id.split('_')[1];
-            //     let $amount  = $("#amount_"+$id.split('_')[1]).val();
-            //     let cusno =  $("#mpesano_"+$id.split('_')[1]).val();
-            //     console.log(cusno);
-            //     console.log($amount);
-            //     // let dObj =  {'TransactionType': 'Pay Bill',
-            //     //             "TransID":"RKTQDM9969",
-            //     //             "TransTime":"20191122063845",
-            //     //             "TransAmount":9080,
-            //     //             "BusinessShortCode": 600638,
-            //     //             "BillRefNumber":"invoice008",
-            //     //             "InvoiceNumber":"",
-            //     //             "OrgAccountBalance":"",
-            //     //             "ThirdPartyTransID": "",
-            //     //             "MSISDN":"25470123149",
-            //     //             "FirstName":"John",
-            //     //             "MiddleName":"",
-            //     //             "LastName":"Doe"}
-            //     let mpesaObj = {'amount': $amount};
+            $('#card_payment').click(function() {
+                <?php if ($sid) {
+                ?>
+                    suspend = $('<span></span>');
+                    suspend.html('<input type="hidden" name="delete_id" value="<?php echo $sid; ?>" />');
+                    suspend.appendTo("#hidesuspend");
+                <?php
+                }
+                ?>
+                var twt = formatDecimal((total + invoice_tax) - order_discount + shipping);
+                if (count == 1) {
+                    bootbox.alert('<?= lang('x_total'); ?>');
+                    return false;
+                }
+                gtotal = formatDecimal(twt);
+                var cart = {
+                    grand_total: gtotal
+                };
+                document.dispatchEvent(
+                    new CustomEvent('rfd.pole.display', {
+                        detail: {
+                            cart
+                        },
+                    })
+                );
+                <?php if ($pos_settings->rounding) {
+                ?>
+                    round_total = roundNumber(gtotal, <?= $pos_settings->rounding ?>);
+                    var rounding = formatDecimal(0 - (gtotal - round_total));
+                    $('#twt').text(formatMoney(round_total) + ' (' + formatMoney(rounding) + ')');
+                    $('#quick-payable').text(round_total);
+                <?php
+                } else {
+                ?>
+                    $('#twt').text(formatMoney(gtotal));
+                    $('#quick-payable').text(gtotal);
+                <?php
+                }
+                ?>
+                $('#item_count').text(count - 1);
+                $('#paymentModal').appendTo("body").modal('show');
+                $('#amount_1').focus();
+            });
+            $('#paymentModal').on('show.bs.modal', function(e) {
+                $('#submit-sale').text('<?= lang('submit'); ?>').attr('disabled', false);
+            });
+            $('#paymentModal').on('shown.bs.modal', function(e) {
+                $('#amount_1').focus().val(grand_total);
+                $('#amount_1').focus().val(0);
+                $('#quick-payable').click();
+            });
+            $('.pmpesa .mpesabtn').click(function () {
+                console.log("started");
+                $mpesaBtn = $(this);
+                $(this).text('Loading');
+                $id = $(this).attr('id');
+                $mNumber= $(this).parent();
+
+                let $amountid = "#amount_"+$id.split('_')[1];
+                let $amount  = $("#amount_"+$id.split('_')[1]).val();
+                let cusno =  $("#mpesano_"+$id.split('_')[1]).val();
+                console.log(cusno);
+                console.log($amount);
+                // let dObj =  {'TransactionType': 'Pay Bill',
+                //             "TransID":"RKTQDM9969",
+                //             "TransTime":"20191122063845",
+                //             "TransAmount":9080,
+                //             "BusinessShortCode": 600638,
+                //             "BillRefNumber":"invoice008",
+                //             "InvoiceNumber":"",
+                //             "OrgAccountBalance":"",
+                //             "ThirdPartyTransID": "",
+                //             "MSISDN":"25470123149",
+                //             "FirstName":"John",
+                //             "MiddleName":"",
+                //             "LastName":"Doe"}
+                let mpesaObj = {'amount': $amount};
 
 
-            //     let mpesaJson = JSON.stringify(mpesaObj);
-            //     // let djson = JSON.stringify(dObj);
-            //      console.log(mpesaObj);
-            //     $.ajax({
-            //             url:"<?= admin_url('pos/mpesa') ?>/",
-            //             method:"POST",
-            //             dataType: "json",
-            //             processData: false,
-            //             contentType: "application/json",
-            //             data: mpesaObj,
-            //             success: function (data) {
-            //                 if (data['trans'] == 'no')
-            //                 {
-            //                     $mpesaBtn.text('Reload');
-            //                 }
-            //                 else
-            //                 {
-            //                     data1 = data['data'];
-            //                     $mpesadiv = jQuery('<div>', {
-            //                     id: "mpesadisp_"+$id.split('_')[1],
-            //                     class: 'mpesadiv some-other-class',
-            //                     title: 'now this div has a title!'
-            //                 });
-            //                 $mpesadiv.css({"display": "flexbox" , "flex-direction": "column","flex-wrap":"nowrap"})
-            //                 for (let i = 0; i < data1.length; i++)
-            //                 {
-            //                     console.log(data1[i]);
-            //                     $mpes = jQuery('<div>', {
-            //                     class: 'mpesalets',
-            //                     title: 'title!'
-            //                 });
-            //                     let pelem = jQuery('<h4>', {
-            //                     id: "mrt"+i
-            //                 });
-            //                     let textd = data1[i]['TransID']+"   "+data1[i]['Firstname']+"   KSH "+data1[i]['TransAmount'];
-            //                     console.log(textd);
-            //                     pelem.text(textd);
-            //                     let blem = jQuery('<button>', {
-            //                     id: data1[i]['TransID'],
-            //                     class:'btn btn-primary col-md-2'
-            //                 });
-            //                     blem.text('pay');
+                let mpesaJson = JSON.stringify(mpesaObj);
+                // let djson = JSON.stringify(dObj);
+                 console.log(mpesaObj);
+                $.ajax({
+                        url:"<?= admin_url('pos/mpesa') ?>/",
+                        method:"POST",
+                        dataType: "json",
+                        processData: true,
+                        contentType: "application/json",
+                        data: mpesaObj,
+                        success: function (data) {
+                            if (data['trans'] == 'no')
+                            {
+                                $mpesaBtn.text('Reload');
+                            }
+                            else
+                            {
+                                data1 = data['data'];
+                                $mpesadiv = jQuery('<div>', {
+                                id: "mpesadisp_"+$id.split('_')[1],
+                                class: 'mpesadiv some-other-class',
+                                title: 'now this div has a title!'
+                            });
+                            $mpesadiv.css({"display": "flexbox" , "flex-direction": "column","flex-wrap":"nowrap"})
+                            for (let i = 0; i < data1.length; i++)
+                            {
+                                console.log(data1[i]);
+                                $mpes = jQuery('<div>', {
+                                class: 'mpesalets',
+                                title: 'title!'
+                            });
+                                let pelem = jQuery('<h4>', {
+                                id: "mrt"+i
+                            });
+                                let textd = data1[i]['TransID']+"   "+data1[i]['Firstname']+"   KSH "+data1[i]['TransAmount'];
+                                console.log(textd);
+                                pelem.text(textd);
+                                let blem = jQuery('<button>', {
+                                id: data1[i]['TransID'],
+                                class:'btn btn-primary col-md-2'
+                            });
+                                blem.text('pay');
 
-            //                     pelem.css({"width":"100%","font-size":"2rem"});
-            //                     blem.css({"margin-bottom":"10px"});
-            //                     // blem.css({"width":"45%"});
+                                pelem.css({"width":"100%","font-size":"2rem"});
+                                blem.css({"margin-bottom":"10px"});
+                                // blem.css({"width":"45%"});
 
-            //                     $mpes.append(pelem);
-            //                     $mpes.append(blem);
+                                $mpes.append(pelem);
+                                $mpes.append(blem);
 
-            //                     $mpes.css({"display": "inline-block", "width":"100%"});
-            //                     $mpesadiv.append($mpes);
-            //                 }
-            //                 $mpesadiv.insertBefore('#'+$id);
-            //                 }
-            //                 // console.log(data);
-            //             }
-            //         });
-            //     // $.ajax({
-            //     //         url:"<?= admin_url('pos/mcus2b') ?>/",
-            //     //         method:"POST",
-            //     //         dataType: "json",
-            //     //         processData: false,
-            //     //         contentType: "application/json",
-            //     //         data: mpesaObj,
-            //     //         success: function (data) {
-            //     //             console.log(data);
-            //     //         }
-            //     //     });
-            //     //     console.log("finished");
-            // });
+                                $mpes.css({"display": "inline-block", "width":"100%"});
+                                $mpesadiv.append($mpes);
+                            }
+                            $mpesadiv.insertBefore('#'+$id);
+                            }
+                             console.log(data);
+                        }
+                    });
+                $.ajax({
+                        url:"<?= admin_url('pos/mcus2b') ?>/",
+                        method:"POST",
+                        dataType: "json",
+                        processData: false,
+                        contentType: "application/json",
+                        data: mpesaObj,
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    });
+                    console.log("finished");
+            });
             $(document).on('click', '.pmpesa .mpesabtn', function(event) {
                 console.log("started");
                 $mpesaBtn = $(event.target);
@@ -1635,34 +1733,34 @@
 
                 console.log(cusno);
                 console.log($amount);
-                let dObj = {
-                    'TransactionType': 'Pay Bill',
-                    "TransID": "RKTQDM9969",
-                    "TransTime": "20191122063845",
-                    "TransAmount": 9080,
-                    "BusinessShortCode": 600638,
-                    "BillRefNumber": "invoice008",
-                    "InvoiceNumber": "",
-                    "OrgAccountBalance": "",
-                    "ThirdPartyTransID": "",
-                    "MSISDN": "25470123149",
-                    "FirstName": "John",
-                    "MiddleName": "",
-                    "LastName": "Doe"
-                }
-                // let mpesaObj = {'amount': $amount};
+                // let dObj = {
+                //     'TransactionType': 'Pay Bill',
+                //     "TransID": "RKTQDM9969",
+                //     "TransTime": "20191122063845",
+                //     "TransAmount": 9080,
+                //     "BusinessShortCode": 600638,
+                //     "BillRefNumber": "invoice008",
+                //     "InvoiceNumber": "",
+                //     "OrgAccountBalance": "",
+                //     "ThirdPartyTransID": "",
+                //     "MSISDN": "25470123149",
+                //     "FirstName": "John",
+                //     "MiddleName": "",
+                //     "LastName": "Doe"
+                // }
+                let mpesaObj = {'amount': $amount};
 
 
-                //let mpesaJson = JSON.stringify(mpesaObj);
-                let djson = JSON.stringify(dObj);
-                console.log(dObj);
+                let mpesaJson = JSON.stringify(mpesaObj);
+                //let djson = JSON.stringify(dObj);
+                console.log(mpesaObj);
                 $.ajax({
-                    url: "<?= admin_url('pos/mpesa') ?>",
+                    url: "<?= admin_url('pos/mpesa') ?>/",
                     method: "POST",
                     dataType: "json",
                     processData: false,
                     contentType: "application/json",
-                    data: dObj,
+                    data: mpesaObj,
                     success: function(data) {
                         if (data['trans'] == 'yes') {
                             data1 = data['data'];
@@ -1720,22 +1818,22 @@
                         console.log(data);
                     }
                 });
-                // $.ajax({
-                //         url:"<?= admin_url('pos/mcus2b') ?>/",
-                //         method:"POST",
-                //         dataType: "json",
-                //         processData: false,
-                //         contentType: "application/json",
-                //         data: djson,
-                //         success: function (data) {
-                //             console.log(data);
-                //         }
-                //     });
-                console.log("finished");
+                $.ajax({
+                        url:"<?= admin_url('pos/mcus2b') ?>/",
+                        method:"POST",
+                        dataType: "json",
+                        processData: false,
+                        contentType: "application/json",
+                        data: mpesaJson,
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    });
+                console.log("finishedhjkl;");
             });
             $(document).on('click', '.mpesapay', function(event) {
 
-                // console.log("Accepted Pay");
+                console.log("Accepted Pay");
                 $mpesaBtn = $(event.target);
                 $id = $mpesaBtn.attr('id');
                 let mpesaId = {
@@ -1743,7 +1841,7 @@
                 };
                 let mpesaJson = JSON.stringify(mpesaId);
                 $.ajax({
-                    url: "<?= admin_url('pos/mpesapay') ?>/",
+                    url: "<?= admin_url('pos/mpesa') ?>/",
                     method: "POST",
                     dataType: "json",
                     processData: false,

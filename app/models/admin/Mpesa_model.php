@@ -143,7 +143,7 @@ class Mpesa_model extends CI_Model
 		$request_data = $this->_get_lipa_na_mpesa_data($phone,$amount,$account_reference,$description);
 
 		$response = $this->post_request(
-			$this->config->item('url_c2b_simulate_transaction'),
+			$this->config->item('url_c2b_register_url'),
 			$request_data,
 			$this->request_headers
 		);

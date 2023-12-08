@@ -1,5 +1,5 @@
 <?php
-
+ini_set('log_errors', 1);
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pos extends MY_Controller
@@ -18,7 +18,7 @@ class Pos extends MY_Controller
         }
 
         $this->load->admin_model('pos_model');
-        $this->load->admin_model('mpesa_model');
+        $this->load->admin_model('Mpesa_model');
         $this->load->helper('text');
         $this->pos_settings = $this->pos_model->getSetting();
         $this->pos_settings->pin_code = $this->pos_settings->pin_code ? md5($this->pos_settings->pin_code) : null;
@@ -245,7 +245,7 @@ class Pos extends MY_Controller
         } else {
             $subcategory_id = null;
         }
-        if (empty($this->input->get('per_page')) || 'n' == $this->input->get('per_page')) {
+        if (empty($this->input->get('per_page')) || 'n' == $this->indivput->get('per_page')) {
             $page = 0;
         } else {
             $page = $this->input->get('per_page');
@@ -318,11 +318,17 @@ class Pos extends MY_Controller
         $post = json_decode($this->security->xss_clean($this->input->raw_input_stream));
         $amount = intval($post->amount);
         $this->db
-            ->select('Firstname, MSISDN, TransID, TransAmount')
+            ->select('ID, Firstname, MSISDN, TransID, TransAmount') // Including the primary key (assuming it's 'ID')
             ->from('sma_mpesatrans')
-            ->where('status =', 'pending');
+            ->where('status', 'pending'); // Adjusted the WHERE clause syntax
         $q = $this->db->get();
+        log_message('debug', 'SQL Query: ' . $this->db->last_query()); // Log the generated SQL query
         log_message('debug', "fetched from db: ".$amount);
+        if ($q === FALSE) {
+            $error = $this->db->error();
+            log_message('error', 'Database query error: ' . $error['message']);
+        }
+        
         if ($q->num_rows() > 0) {
                 foreach (($q->result()) as $row) {
                     if (intval($row->TransAmount) == $amount)
@@ -339,21 +345,21 @@ class Pos extends MY_Controller
         else{
             $this->sma->send_json(['trans' => 'no']);
         }
-        // $date_saf = $this->mpesa_model->get_timestamp();
+         $date_saf = $this->mpesa_model->get_timestamp();
         
         
     }
-    // public function mcus2b()
-    // {
-    //     $post = json_decode($this->security->xss_clean($this->input->raw_input_stream));
-    //     // $post2= json_encode($post);
-    //     // $post = json_decode($post2);
-    //     // $this->db->insert('mpesatrans', $post);
-    //     $post->status = "pending";
-    //     $this->db->insert('mpesatrans', $post);
-    //     $this->sma->send_json(["ResultCode" => "0", "ResultDesc"=> "Accepted"]);
+    public function mcus2b()
+    {
+        $post = json_decode($this->security->xss_clean($this->input->raw_input_stream));
+        // $post2= json_encode($post);
+        // $post = json_decode($post2);
+        // $this->db->insert('mpesatrans', $post);
+        $post->status = "pending";
+        $this->db->insert('mpesatrans', $post);
+        $this->sma->send_json(["ResultCode" => "0", "ResultDesc"=> "Accepted"]);
 
-    // }
+    }
     public function mcus2b1()
     {
         $post = json_decode($this->security->xss_clean($this->input->raw_input_stream));

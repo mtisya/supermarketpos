@@ -10,7 +10,7 @@ $config['consumer_secret'] = 'WGbopb9EHVLLY2ZB';
 /* 
 	TEST CREDENTIALS
 */
-$config['shortcode_1'] = '600984';
+$config['shortcode_1'] = '6118949';
 
 $config['initiator_name_1'] = 'testapi';
 
@@ -24,7 +24,7 @@ $config['expiry_date'] = '2024-11-03T21:46:34+03:00';
 
 $config['lipa_na_mpesa_online_shortcode'] = '174379';
 
-$config['lipa_na_mpesa_online_passkey'] = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+$config['lipa_na_mpesa_online_passkey'] = '852e44f9a1e86a8cb5e8baa05f3f0531f5346e4c2278cff6b640dfb65b624a05';
 
 /* 
 	DEFAULTS
@@ -65,7 +65,7 @@ $config['url_b2c'] = 'https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentreques
 
 $config['url_b2b'] = 'https://sandbox.safaricom.co.ke/mpesa/b2b/v1/paymentrequest';
 
-$config['url_c2b_register_url'] = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl';
+$config['url_c2b_register_url'] = 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl';
 $config['url_c2b_simulate_transaction'] = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate';
 
 $config['url_account_balance'] = 'https://sandbox.safaricom.co.ke/mpesa/accountbalance/v1/query';
