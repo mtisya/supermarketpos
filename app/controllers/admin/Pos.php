@@ -1,5 +1,5 @@
 <?php
-ini_set('log_errors', 1);
+// ini_set('log_errors', 1);
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pos extends MY_Controller

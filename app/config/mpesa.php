@@ -10,7 +10,7 @@ $config['consumer_secret'] = 'WGbopb9EHVLLY2ZB';
 /* 
 	TEST CREDENTIALS
 */
-$config['shortcode_1'] = '6118949';
+$config['shortcode_1'] = '977654';
 
 $config['initiator_name_1'] = 'testapi';
 
