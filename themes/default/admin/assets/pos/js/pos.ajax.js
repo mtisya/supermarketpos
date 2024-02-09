@@ -2186,38 +2186,24 @@ if (pos_settings.add_customer != '') {
         { type: 'keydown', propagate: false, target: document }
     );
 }
-if (pos_settings.toggle_category_slider != '') {
-    shortcut.add(
-        pos_settings.toggle_category_slider,
-        function () {
-            $('#open-category').trigger('click');
-        },
-        { type: 'keydown', propagate: false, target: document }
-    );
-}
-if (pos_settings.toggle_brands_slider != '') {
-    shortcut.add(
-        pos_settings.toggle_brands_slider,
-        function () {
-            $('#open-brands').trigger('click');
-        },
-        { type: 'keydown', propagate: false, target: document }
-    );
-}
-if (pos_settings.toggle_subcategory_slider != '') {
-    shortcut.add(
-        pos_settings.toggle_subcategory_slider,
-        function () {
-            $('#open-subcategory').trigger('click');
-        },
-        { type: 'keydown', propagate: false, target: document }
-    );
-}
 if (pos_settings.cancel_sale != '') {
     shortcut.add(
         pos_settings.cancel_sale,
         function () {
             $('#reset').click();
+        },
+        { type: 'keydown', propagate: false, target: document }
+    );
+}
+if (pos_settings.mpesa_payment != '') {
+    shortcut.add(
+        pos_settings.mpesa_payment,
+        function () {
+            if ($('#payments').is(':visible')) {
+                $('#submit-sale').click();
+            } else {
+                $('#payment').trigger('click');
+            }
         },
         { type: 'keydown', propagate: false, target: document }
     );

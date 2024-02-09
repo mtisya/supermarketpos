@@ -37,3 +37,4 @@ ERROR - 2024-02-05 10:48:42 --> Could not find the language line "last_name"
 ERROR - 2024-02-05 10:48:42 --> Could not find the language line "email"
 ERROR - 2024-02-05 10:48:42 --> Severity: Warning --> Undefined property: stdClass::$user_language C:\xampp\htdocs\supermarket\app\controllers\Main.php 16
 ERROR - 2024-02-05 10:49:11 --> Could not find the language line "M-pesa"
+ERROR - 2024-02-05 11:04:35 --> Could not find the language line "M-pesa"

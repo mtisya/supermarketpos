@@ -267,20 +267,8 @@
                     </div>
                     <div class="col-md-4 col-sm-4">
                         <div class="form-group">
-                            <?= lang('toggle_category_slider', 'toggle_category_slider'); ?>
-                            <?= form_input('toggle_category_slider', $pos->toggle_category_slider, 'class="form-control tip" id="toggle_category_slider"'); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            <?= lang('toggle_subcategory_slider', 'toggle_subcategory_slider'); ?>
-                            <?= form_input('toggle_subcategory_slider', $pos->toggle_subcategory_slider, 'class="form-control tip" id="toggle_subcategory_slider"'); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            <?= lang('toggle_brands_slider', 'toggle_brands_slider'); ?>
-                            <?= form_input('toggle_brands_slider', $pos->toggle_brands_slider, 'class="form-control tip" id="toggle_brands_slider"'); ?>
+                            <?= lang('Mpesa_payment', 'Mpesa_payment'); ?>
+                            <?= form_input('mpesa_payment', $pos->mpesa_payment, 'class="form-control tip" id="mpesa_payment"'); ?>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4">
@@ -295,36 +283,14 @@
                             <?= form_input('suspend_sale', $pos->suspend_sale, 'class="form-control tip" id="suspend_sale"'); ?>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            <?= lang('print_items_list', 'print_items_list'); ?>
-                            <?= form_input('print_items_list', $pos->print_items_list, 'class="form-control tip" id="print_items_list"'); ?>
-                        </div>
-                    </div>
+                    
                     <div class="col-md-4 col-sm-4">
                         <div class="form-group">
                             <?= lang('finalize_sale', 'finalize_sale'); ?>
                             <?= form_input('finalize_sale', $pos->finalize_sale, 'class="form-control tip" id="finalize_sale"'); ?>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            <?= lang('today_sale', 'today_sale'); ?>
-                            <?= form_input('today_sale', $pos->today_sale, 'class="form-control tip" id="today_sale"'); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            <?= lang('open_hold_bills', 'open_hold_bills'); ?>
-                            <?= form_input('open_hold_bills', $pos->open_hold_bills, 'class="form-control tip" id="open_hold_bills"'); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            <?= lang('close_register', 'close_register'); ?>
-                            <?= form_input('close_register', $pos->close_register, 'class="form-control tip" id="close_register"'); ?>
-                        </div>
-                    </div>
+                    
                 </fieldset>
 
                 <fieldset class="scheduler-border">

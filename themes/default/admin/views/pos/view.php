@@ -267,7 +267,7 @@
                     echo '<table class="table table-striped table-condensed"><tbody>';
                     foreach ($payments as $payment) {
                         echo '<tr>';
-                        if (($payment->paid_by == 'cash' || $payment->paid_by == 'deposit') && $payment->pos_paid) {
+                        if (($payment->paid_by == 'cash' || $payment->paid_by == 'mpesa' || $payment->paid_by == 'deposit') && $payment->pos_paid) {
                             echo '<td>' . lang('paid_by') . ': ' . lang($payment->paid_by) . '</td>';
                             echo '<td colspan="2">' . lang('amount') . ': ' . $this->sma->formatMoney($payment->pos_paid == 0 ? $payment->amount : $payment->pos_paid) . ($payment->return_id ? ' (' . lang('returned') . ')' : '') . '</td>';
                             echo '<td>' . lang('change') . ': ' . ($payment->pos_balance > 0 ? $this->sma->formatMoney($payment->pos_balance) : 0) . '</td>';
@@ -300,7 +300,7 @@
                     foreach ($return_payments as $payment) {
                         $payment->amount = (0 - $payment->amount);
                         echo '<tr>';
-                        if (($payment->paid_by == 'cash' || $payment->paid_by == 'deposit') && $payment->pos_paid) {
+                        if (($payment->paid_by == 'cash' || $payment->paid_by == 'mpesa' || $payment->paid_by == 'deposit') && $payment->pos_paid) {
                             echo '<td>' . lang('paid_by') . ': ' . lang($payment->paid_by) . '</td>';
                             echo '<td colspan="2">' . lang('amount') . ': ' . $this->sma->formatMoney($payment->pos_paid == 0 ? $payment->amount : $payment->pos_paid) . ($payment->return_id ? ' (' . lang('returned') . ')' : '') . '</td>';
                             echo '<td>' . lang('change') . ': ' . ($payment->pos_balance > 0 ? $this->sma->formatMoney($payment->pos_balance) : 0) . '</td>';
@@ -439,6 +439,24 @@
         <?php
     }
     ?>
+
+    <!--load page back to pos after sale receipt -->
+    <script type="text/javascript">
+        // Wait for the view to load
+        window.onload = function() {
+            // Open a new window with the desired URL after 3 seconds
+            setTimeout(function() {
+                var newWindow = window.open('https://localhost/supermarket/admin/pos', '_self');
+            }, 2000); // 3000 milliseconds = 3 seconds
+        };
+
+        // Close the current window after opening the new window
+        setTimeout(function() {
+            window.close();
+        }, 3000); // Close after 8 seconds to ensure the new window has time to load (3 seconds delay + 5 seconds for the new window)
+    </script>
+    <!-- page load ends -->
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#email').click(function () {

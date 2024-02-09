@@ -340,14 +340,10 @@ class Sma
         }
         $opts .= '
         <option value="cash"' . ($paid_by && 'cash' == $paid_by ? ' selected="selected"' : '') . '>' . lang('cash') . '</option>
-        <option value="mpesa"' . ($paid_by && 'mpesa' == $paid_by ? ' selected="selected"' : '') .  '>' . lang('M-pesa') . '</option>
-        <option value="gift_card"' . ($paid_by && 'gift_card' == $paid_by ? ' selected="selected"' : '') . '>' . lang('gift_card') . '</option>
-        <option value="CC"' . ($paid_by && 'CC' == $paid_by ? ' selected="selected"' : '') . '>' . lang('CC') . '</option>
-        <option value="Cheque"' . ($paid_by && 'Cheque' == $paid_by ? ' selected="selected"' : '') . '>' . lang('cheque') . '</option>
-        <option value="other"' . ($paid_by && 'other' == $paid_by ? ' selected="selected"' : '') . '>' . lang('other') . '</option>';
-        if (!$purchase) {
-            $opts .= '<option value="deposit"' . ($paid_by && 'deposit' == $paid_by ? ' selected="selected"' : '') . '>' . lang('deposit') . '</option>';
-        }
+        <option value="mpesa"' . ($paid_by && 'mpesa' == $paid_by ? ' selected="selected"' : '') .  '>' . lang('M-pesa') . '</option>';
+        // if (!$purchase) {
+        //     $opts .= '<option value="deposit"' . ($paid_by && 'deposit' == $paid_by ? ' selected="selected"' : '') . '>' . lang('deposit') . '</option>';
+        // }
         return $opts;
     }
 

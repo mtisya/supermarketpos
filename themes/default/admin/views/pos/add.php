@@ -372,6 +372,7 @@
                                                 <input type="hidden" name="amount[]" id="amount_val_<?= $i ?>" value="" />
                                                 <input type="hidden" name="balance_amount[]" id="balance_amount_<?= $i ?>" value="" />
                                                 <input type="hidden" name="paid_by[]" id="paid_by_val_<?= $i ?>" value="cash" />
+                                                <input type="hidden" name="paid_by[]" id="paid_by_val_<?= $i ?>" value="mpesa" />
                                                 <input type="hidden" name="cc_no[]" id="cc_no_val_<?= $i ?>" value="" />
                                                 <input type="hidden" name="paying_gift_card_no[]" id="paying_gift_card_no_val_<?= $i ?>" value="" />
                                                 <input type="hidden" name="cc_holder[]" id="cc_holder_val_<?= $i ?>" value="" />
@@ -404,7 +405,7 @@
                                                 <button type="button" class="btn btn-warning btn-block payment-btn" id="payment" style="height:67px;">
                                                     <i class="fa fa-money" style="margin-right: 5px;"></i><?= lang('cash'); ?>
                                                 </button>
-                                                <button type="button" class="btn btn-success btn-block payment-btn" id="mpesa_payment" style="height:67px;">
+                                                <button type="button" class="btn btn-success btn-block payment-btn" id="payment" style="height:67px;">
                                                     <i class="fa fa-phone" style="margin-right: 5px;"></i><?= lang('mpesa'); ?>
                                                 </button>
                                                 <button type="button" class="btn btn-primary btn-block payment-btn" id="card_payment" style="height:67px;">
@@ -574,10 +575,10 @@
                                                                                         </div>
                                                                                         <button type="button" id="mbtn_1" class="btn btn-success col-md-12 mpesabtn"><i class="fa fa-paper-plane"></i> MPESA</button>
                                                                                     </div>
-                                                                                    <div class="form-group">
+                                                                                    <!-- <div class="form-group">
                                                                                         <?= lang('payment_note', 'payment_note'); ?>
                                                                                         <textarea name="payment_note[]" id="payment_note_1" class="pa form-control kb-text payment_note"></textarea>
-                                                                                    </div>
+                                                                                    </div> -->
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -963,8 +964,72 @@
                     <h4 class="modal-title" id="mModalLabel"><?= lang('shortcut_keys') ?></h4>
                 </div>
                 <div class="modal-body" id="pr_popover_content">
-                    <table class="table table-bordered table-striped table-condensed table-hover" style="margin-bottom: 0px;">
+                <table class="table table-bordered table-striped table-condensed table-hover" style="margin-bottom: 0px;">
                         <thead>
+                            <tr>
+                                <th><?= lang('shortcut_keys') ?></th>
+                                <th><?= lang('actions') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?= $pos_settings->focus_add_item ?></td>
+                                <td><?= lang('focus_add_item') ?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $pos_settings->add_manual_product ?></td>
+                                <td><?= lang('add_manual_product') ?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $pos_settings->customer_selection ?></td>
+                                <td><?= lang('customer_selection') ?></td>
+                            </tr>
+                            <!-- <tr>
+                                <td><?= $pos_settings->add_customer ?></td>
+                                <td><?= lang('add_customer') ?></td>
+                            </tr> -->
+                            <!--<tr>-->
+                            <!--    <td><?= $pos_settings->toggle_category_slider ?></td>-->
+                            <!--    <td><?= lang('toggle_category_slider') ?></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--    <td><?= $pos_settings->toggle_subcategory_slider ?></td>-->
+                            <!--    <td><?= lang('toggle_subcategory_slider') ?></td>-->
+                            <!--</tr>-->
+                            <tr>
+                                <td><?=$pos_settings->mpesa_payment?></td>
+                                <td><?=lang('mpesa_payment')?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $pos_settings->cancel_sale ?></td>
+                                <td><?= lang('cancel_sale') ?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $pos_settings->suspend_sale ?></td>
+                                <td><?= lang('suspend_sale') ?></td>
+                            </tr>
+                            <!--<tr>-->
+                            <!--    <td><?= $pos_settings->print_items_list ?></td>-->
+                            <!--    <td><?= lang('print_items_list') ?></td>-->
+                            <!--</tr>-->
+                            <tr>
+                                <td><?= $pos_settings->finalize_sale ?></td>
+                                <td><?= lang('finalize_sale') ?></td>
+                            </tr>
+                            <!--<tr>-->
+                            <!--    <td><?= $pos_settings->today_sale ?></td>-->
+                            <!--    <td><?= lang('today_sale') ?></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--    <td><?= $pos_settings->open_hold_bills ?></td>-->
+                            <!--    <td><?= lang('open_hold_bills') ?></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--    <td><?= $pos_settings->close_register ?></td>-->
+                            <!--    <td><?= lang('close_register') ?></td>-->
+                            <!--</tr>-->
+                        </tbody>
+                    </table>                        <thead>
                             <tr>
                                 <th><?= lang('shortcut_keys') ?></th>
                                 <th><?= lang('actions') ?></th>
@@ -2702,6 +2767,14 @@
     }
     ?>
     <script type="text/javascript" src="<?= base_url('assets/custom/pos.js') ?>"></script>
+
+    <script>
+    document.getElementById('submit-sale').addEventListener('click', function() {
+    setTimeout(function() {
+        window.location.href = 'https://localhost/supermarket/admin/pos/';
+    }, 3000); // 3000 milliseconds = 3 seconds
+});
+</script>
 </body>
 
 </html>

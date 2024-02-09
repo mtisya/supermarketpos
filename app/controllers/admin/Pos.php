@@ -101,7 +101,7 @@ class Pos extends MY_Controller
                 $payment['attachment'] = $photo;
             }
 
-        //$this->sma->print_arrays($payment);
+        $this->sma->print_arrays($payment);
         } elseif ($this->input->post('add_payment')) {
             $this->session->set_flashdata('error', validation_errors());
             redirect($_SERVER['HTTP_REFERER']);
@@ -137,7 +137,7 @@ class Pos extends MY_Controller
             $this->data['payment_ref'] = $this->site->getReference('pay');
             $this->data['modal_js'] = $this->site->modal_js();
 
-            $this->load->view($this->theme . 'pos/add_payment', $this->data);
+            //$this->load->view($this->theme . 'pos/add_payment', $this->data);
         }
     }
 
@@ -1380,7 +1380,7 @@ class Pos extends MY_Controller
         $this->escpos->load($data->printer);
         $this->escpos->print_receipt($data);
     }
-
+  
     public function paypal_balance()
     {
         if (!$this->Owner) {
@@ -1491,6 +1491,7 @@ class Pos extends MY_Controller
                 'toggle_subcategory_slider' => $this->input->post('toggle_subcategory_slider'),
                 'toggle_brands_slider'      => $this->input->post('toggle_brands_slider'),
                 'cancel_sale'               => $this->input->post('cancel_sale'),
+                'mpesa_payment'             => $this->input->post('mpesa_payment'),
                 'suspend_sale'              => $this->input->post('suspend_sale'),
                 'print_items_list'          => $this->input->post('print_items_list'),
                 'finalize_sale'             => $this->input->post('finalize_sale'),
@@ -1657,6 +1658,9 @@ class Pos extends MY_Controller
         $this->data['created_by'] = $this->site->getUser($inv->created_by);
         $this->data['printer'] = $this->pos_model->getPrinterByID($this->pos_settings->printer);
         $this->data['page_title'] = $this->lang->line('invoice');
+        $this->load->view($this->theme . 'pos/view', $this->data);
+
+        // Load the view
         $this->load->view($this->theme . 'pos/view', $this->data);
     }
 
